@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:study_planner_fluter/models/course_model.dart';
+import 'package:study_planner_fluter/services/course_service.dart';
+import 'package:study_planner_fluter/util/util_functions.dart';
 import 'package:study_planner_fluter/widgets/custom_button.dart';
 import 'package:study_planner_fluter/widgets/custom_input_filed.dart';
 
@@ -21,7 +25,25 @@ class AddNewCourse extends StatelessWidget {
     if (_formKey.currentState?.validate() ?? false) {
       //save form
       _formKey.currentState?.save();
-      print(_courseDescriptionController.text);
+
+      //Add course to Firebase or any other storage here
+      try {
+        final Course course = Course(
+          id: '',
+          name: _courseNameController.text,
+          description: _courseDescriptionController.text,
+          duartion: _courseDurationController.text,
+          schedule: _courseScheduleController.text,
+          instructor: _courseInstructorController.text,
+        );
+        await CourseService().createNewCourse(course);
+        showSnackBar(context: context, text: 'Course added succesfully');
+        //Navigate to the home page
+        GoRouter.of(context).go('/');
+      } catch (error) {
+        print(error);
+        showSnackBar(context: context, text: 'Failed to add course!');
+      }
     }
   }
 
