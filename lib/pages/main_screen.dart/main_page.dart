@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:study_planner_fluter/constants/colors.dart';
-import 'package:study_planner_fluter/services/course_service.dart';
+import 'package:study_planner_fluter/services/database/course_service.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -48,10 +48,10 @@ class MainPage extends StatelessWidget {
                         ))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                Text(
+                const Text(
                   "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying.",
                   style: TextStyle(color: Colors.grey),
                 ),
@@ -116,6 +116,9 @@ class MainPage extends StatelessWidget {
                                   fontSize: 12,
                                 ),
                               ),
+                              onTap: () {
+                                GoRouter.of(context).push('/single-course',extra: course);
+                              },
                             ),
                           );
                         },
